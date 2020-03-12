@@ -1,24 +1,26 @@
 locals {
   stable_config = {
 
-    # network             = azurerm_virtual_network.control_plane.name
-    # resource_group_name = azurerm_resource_group.control_plane.name
+    location         = "${var.location}"
+    environment_name = "${var.env_name}"
 
+    # network             = azurerm_virtual_network.control_plane.name
+    resource_group_name = "${module.infra.resource_group_name}"
     # security_group_platform_vms_name = azurerm_network_security_group.internal_traffic.name
     # security_group_opsmanager_name   = azurerm_network_security_group.ops_manager.name
 
     # opsmanager_private_key = tls_private_key.ops_manager.private_key_pem
-    # opsmanager_public_key  = tls_private_key.ops_manager.public_key_openssh
-    # opsmanager_public_ip   = azurerm_public_ip.ops_manager.ip_address
+    opsmanager_public_key  = "${module.ops_manager.ops_manager_ssh_public_key}"
+    opsmanager_public_ip   = "${module.ops_manager.ops_manager_public_ip}"
     # opsmanager_password    = random_password.ops_manager_password.result
     # opsman_vm_name         = "ControlPlane-OpsManager-vm"
 
-    # container_opsmanager_image = azurerm_storage_container.ops_manager.name
+    container_opsmanager_image = "${module.ops_manager.ops_manager_storage_container}"
 
-    # storage_account_opsmanager = azurerm_storage_account.ops_manager.name
+    storage_account_opsmanager = "${module.ops_manager.ops_manager_storage_account}"
 
     # subnet_management_name     = azurerm_subnet.management.name
-    # subnet_management_id       = azurerm_subnet.management.id
+    subnet_management_id       = "${module.infra.infrastructure_subnet_id}"
     # subnet_management_cidr     = azurerm_subnet.management.address_prefix
     # subnet_management_gateway  = cidrhost(azurerm_subnet.management.address_prefix, 1)
     # subnet_management_reserved = "${cidrhost(azurerm_subnet.management.address_prefix, 1)}-${cidrhost(azurerm_subnet.management.address_prefix, 5)}"
