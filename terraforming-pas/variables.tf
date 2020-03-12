@@ -144,3 +144,7 @@ variable "pcf_services_subnet" {
   type    = "string"
   default = "10.0.4.0/22"
 }
+
+variable "ssh_trusted_sources" {
+  type    = "list"
+}
