@@ -23,6 +23,10 @@ variable "pcf_infrastructure_subnet" {
   default = ""
 }
 
+variable "ssh_trusted_sources" {
+  type    = "list"
+}
+
 resource "azurerm_resource_group" "pcf_resource_group" {
   name     = "${var.env_name}"
   location = "${var.location}"

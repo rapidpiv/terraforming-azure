@@ -21,6 +21,7 @@ module "infra" {
   dns_suffix                        = "${var.dns_suffix}"
   pcf_infrastructure_subnet         = "${var.pcf_infrastructure_subnet}"
   pcf_virtual_network_address_space = "${var.pcf_virtual_network_address_space}"
+  ssh_trusted_sources               = "${var.ssh_trusted_sources}"
 }
 
 module "ops_manager" {
