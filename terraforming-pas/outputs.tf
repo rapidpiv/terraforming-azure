@@ -7,13 +7,13 @@ locals {
     # network             = azurerm_virtual_network.control_plane.name
     resource_group_name = "${module.infra.resource_group_name}"
     # security_group_platform_vms_name = azurerm_network_security_group.internal_traffic.name
-    # security_group_opsmanager_name   = azurerm_network_security_group.ops_manager.name
+    security_group_opsmanager_name   = "${module.infra.security_group_name}"
 
     # opsmanager_private_key = tls_private_key.ops_manager.private_key_pem
     opsmanager_public_key  = "${module.ops_manager.ops_manager_ssh_public_key}"
     opsmanager_public_ip   = "${module.ops_manager.ops_manager_public_ip}"
     # opsmanager_password    = random_password.ops_manager_password.result
-    # opsman_vm_name         = "ControlPlane-OpsManager-vm"
+    opsman_vm_name         = "PAS-OpsManager-vm"
 
     container_opsmanager_image = "${module.ops_manager.ops_manager_storage_container}"
 
