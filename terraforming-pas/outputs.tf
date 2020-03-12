@@ -1,3 +1,55 @@
+locals {
+  stable_config = {
+
+    # network             = azurerm_virtual_network.control_plane.name
+    # resource_group_name = azurerm_resource_group.control_plane.name
+
+    # security_group_platform_vms_name = azurerm_network_security_group.internal_traffic.name
+    # security_group_opsmanager_name   = azurerm_network_security_group.ops_manager.name
+
+    # opsmanager_private_key = tls_private_key.ops_manager.private_key_pem
+    # opsmanager_public_key  = tls_private_key.ops_manager.public_key_openssh
+    # opsmanager_public_ip   = azurerm_public_ip.ops_manager.ip_address
+    # opsmanager_password    = random_password.ops_manager_password.result
+    # opsman_vm_name         = "ControlPlane-OpsManager-vm"
+
+    # container_opsmanager_image = azurerm_storage_container.ops_manager.name
+
+    # storage_account_opsmanager = azurerm_storage_account.ops_manager.name
+
+    # subnet_management_name     = azurerm_subnet.management.name
+    # subnet_management_id       = azurerm_subnet.management.id
+    # subnet_management_cidr     = azurerm_subnet.management.address_prefix
+    # subnet_management_gateway  = cidrhost(azurerm_subnet.management.address_prefix, 1)
+    # subnet_management_reserved = "${cidrhost(azurerm_subnet.management.address_prefix, 1)}-${cidrhost(azurerm_subnet.management.address_prefix, 5)}"
+
+    # subnet_control-plane_name     = azurerm_subnet.concourse.name
+    # subnet_control-plane_id       = azurerm_subnet.concourse.id
+    # subnet_control-plane_cidr     = azurerm_subnet.concourse.address_prefix
+    # subnet_control-plane_gateway  = cidrhost(azurerm_subnet.concourse.address_prefix, 1)
+    # subnet_control-plane_reserved = "${cidrhost(azurerm_subnet.concourse.address_prefix, 1)}-${cidrhost(azurerm_subnet.concourse.address_prefix, 5)}"
+
+    # lb_web     = azurerm_lb.web.name
+    # lb_credhub = azurerm_lb.credhub.name
+    # lb_uaa     = azurerm_lb.credhub.name
+    # # lb_uaa     = azurerm_lb.uaa.name
+
+    # dns_opsmanager = "${azurerm_dns_a_record.opsmanager.name}.${azurerm_dns_a_record.opsmanager.zone_name}"
+    # dns_web        = "${azurerm_dns_a_record.web.name}.${azurerm_dns_a_record.web.zone_name}"
+    # dns_credhub    = "${azurerm_dns_a_record.credhub.name}.${azurerm_dns_a_record.credhub.zone_name}"
+    # dns_uaa        = "${azurerm_dns_a_record.uaa.name}.${azurerm_dns_a_record.uaa.zone_name}"
+
+    subscription_id = "${var.subscription_id}"
+    tenant_id       = "${var.tenant_id}"
+    client_id       = "${var.client_id}"
+    client_secret   = "${var.client_secret}"
+  }
+}
+
+output "stable_config" {
+  value     = jsonencode(local.stable_config)
+  sensitive = false
+}
 output "iaas" {
   value = "azure"
 }
