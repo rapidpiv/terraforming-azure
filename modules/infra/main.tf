@@ -101,7 +101,7 @@ resource "azurerm_network_security_group" "bosh_deployed_vms_security_group" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = 22
-    source_address_prefix      = "Internet"
+    source_address_prefixes    = "${var.ssh_trusted_sources}"
     destination_address_prefix = "*"
   }
 
