@@ -47,7 +47,7 @@ locals {
 }
 
 output "stable_config" {
-  value     = ${jsonencode(local.stable_config)}
+  value     = "${jsonencode(local.stable_config)}"
   sensitive = false
 }
 output "iaas" {
