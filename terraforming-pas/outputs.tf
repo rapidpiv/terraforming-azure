@@ -12,8 +12,8 @@ locals {
     # opsmanager_private_key = tls_private_key.ops_manager.private_key_pem
     opsmanager_public_key  = "${module.ops_manager.ops_manager_ssh_public_key}"
     opsmanager_public_ip   = "${module.ops_manager.ops_manager_public_ip}"
-    # opsmanager_password    = "${module.ops_manager.om_password}"
-    # opsmanager_decryption_password    = "${module.ops_manager.om_decryption_password}"
+    opsmanager_password    = "${module.ops_manager.om_password}"
+    opsmanager_decryption_password    = "${module.ops_manager.om_decryption_password}"
     opsman_vm_name         = "PAS-OpsManager-vm"
 
     container_opsmanager_image = "${module.ops_manager.ops_manager_storage_container}"
