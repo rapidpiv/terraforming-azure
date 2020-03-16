@@ -37,7 +37,7 @@ locals {
     # lb_uaa     = azurerm_lb.credhub.name
     # # lb_uaa     = azurerm_lb.uaa.name
 
-    # dns_opsmanager = "${azurerm_dns_a_record.opsmanager.name}.${azurerm_dns_a_record.opsmanager.zone_name}"
+    dns_opsmanager = "${module.ops_manager.dns_name}"
     # dns_web        = "${azurerm_dns_a_record.web.name}.${azurerm_dns_a_record.web.zone_name}"
     # dns_credhub    = "${azurerm_dns_a_record.credhub.name}.${azurerm_dns_a_record.credhub.zone_name}"
     # dns_uaa        = "${azurerm_dns_a_record.uaa.name}.${azurerm_dns_a_record.uaa.zone_name}"
