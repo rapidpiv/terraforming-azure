@@ -4,12 +4,12 @@ locals {
     location         = "${var.location}"
     environment_name = "${var.env_name}"
 
-    # network             = azurerm_virtual_network.control_plane.name
+    network             = "${module.infra.network_name}"
     resource_group_name = "${module.infra.resource_group_name}"
-    # security_group_platform_vms_name = azurerm_network_security_group.internal_traffic.name
+    security_group_platform_vms_name = "${module.infra.bosh_deployed_vms_security_group_name}"
     security_group_opsmanager_name   = "${module.infra.security_group_name}"
 
-    # opsmanager_private_key = tls_private_key.ops_manager.private_key_pem
+    opsmanager_private_key = "${module.ops_manager.ops_manager_ssh_private_key}"
     opsmanager_public_key  = "${module.ops_manager.ops_manager_ssh_public_key}"
     opsmanager_public_ip   = "${module.ops_manager.ops_manager_public_ip}"
     opsmanager_password    = "${module.ops_manager.om_password}"
@@ -20,11 +20,11 @@ locals {
 
     storage_account_opsmanager = "${module.ops_manager.ops_manager_storage_account}"
 
-    # subnet_management_name     = azurerm_subnet.management.name
+    subnet_management_name     = "${module.infra.infrastructure_subnet_name}"
     subnet_management_id       = "${module.infra.infrastructure_subnet_id}"
-    # subnet_management_cidr     = azurerm_subnet.management.address_prefix
-    # subnet_management_gateway  = cidrhost(azurerm_subnet.management.address_prefix, 1)
-    # subnet_management_reserved = "${cidrhost(azurerm_subnet.management.address_prefix, 1)}-${cidrhost(azurerm_subnet.management.address_prefix, 5)}"
+    subnet_management_cidr     = "${module.infra.infrastructure_subnet_cidr}"
+    subnet_management_gateway  = "${module.infra.infrastructure_subnet_gateway}"
+    subnet_management_reserved = "${cidrhost(module.infra.infrastructure_subnet_cidr, 1)}-${cidrhost(module.infra.infrastructure_subnet_cidr, 5)}"
 
     # subnet_control-plane_name     = azurerm_subnet.concourse.name
     # subnet_control-plane_id       = azurerm_subnet.concourse.id
@@ -32,7 +32,7 @@ locals {
     # subnet_control-plane_gateway  = cidrhost(azurerm_subnet.concourse.address_prefix, 1)
     # subnet_control-plane_reserved = "${cidrhost(azurerm_subnet.concourse.address_prefix, 1)}-${cidrhost(azurerm_subnet.concourse.address_prefix, 5)}"
 
-    # lb_web     = azurerm_lb.web.name
+    lb_router     = "${module.pas.web_lb_name}"
     # lb_credhub = azurerm_lb.credhub.name
     # lb_uaa     = azurerm_lb.credhub.name
     # # lb_uaa     = azurerm_lb.uaa.name
