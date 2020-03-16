@@ -24,18 +24,21 @@ locals {
     subnet_management_id       = "${module.infra.infrastructure_subnet_id}"
     subnet_management_cidr     = "${module.infra.infrastructure_subnet_cidr}"
     subnet_management_gateway  = "${module.infra.infrastructure_subnet_gateway}"
-    subnet_management_reserved = "${cidrhost(module.infra.infrastructure_subnet_cidr, 1)}-${cidrhost(module.infra.infrastructure_subnet_cidr, 5)}"
+    subnet_management_reserved = "${cidrhost(module.infra.infrastructure_subnet_cidr, 1)}-${cidrhost(module.infra.infrastructure_subnet_cidr, 10)}"
 
-    # subnet_control-plane_name     = azurerm_subnet.concourse.name
-    # subnet_control-plane_id       = azurerm_subnet.concourse.id
-    # subnet_control-plane_cidr     = azurerm_subnet.concourse.address_prefix
-    # subnet_control-plane_gateway  = cidrhost(azurerm_subnet.concourse.address_prefix, 1)
-    # subnet_control-plane_reserved = "${cidrhost(azurerm_subnet.concourse.address_prefix, 1)}-${cidrhost(azurerm_subnet.concourse.address_prefix, 5)}"
+    subnet_pas_name     = "${module.pas.pas_subnet_name}"
+    subnet_pas_id       = "${module.pas.pas_subnet_id}"
+    subnet_pas_cidr     = "${module.pas.pas_subnet_cidr}"
+    subnet_pas_gateway  = "${module.pas.pas_subnet_gateway}"
+    subnet_pas_reserved = "${cidrhost(module.pas.pas_subnet_cidr, 1)}-${cidrhost(module.pas.pas_subnet_cidr, 10)}"
+
+    subnet_services_name     = "${module.pas.services_subnet_name}"
+    subnet_services_id       = "${module.pas.services_subnet_id}"
+    subnet_services_cidr     = "${module.pas.services_subnet_cidr}"
+    subnet_services_gateway  = "${module.pas.services_subnet_gateway}"
+    subnet_services_reserved = "${cidrhost(module.pas.services_subnet_cidr, 1)}-${cidrhost(module.pas.services_subnet_cidr, 10)}"
 
     lb_router     = "${module.pas.web_lb_name}"
-    # lb_credhub = azurerm_lb.credhub.name
-    # lb_uaa     = azurerm_lb.credhub.name
-    # # lb_uaa     = azurerm_lb.uaa.name
 
     dns_opsmanager = "${module.ops_manager.dns_name}"
     # dns_web        = "${azurerm_dns_a_record.web.name}.${azurerm_dns_a_record.web.zone_name}"
@@ -186,6 +189,7 @@ output "services_subnet_cidr" {
 output "services_subnet_gateway" {
   value = "${module.pas.services_subnet_gateway}"
 }
+
 
 output "pcf_resource_group_name" {
   value = "${module.infra.resource_group_name}"
