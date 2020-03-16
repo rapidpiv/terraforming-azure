@@ -1,10 +1,10 @@
 # ==================== Outputs
 output om_password {
-  value = ${random_password.ops_manager_password.result}
+  value = "${random_password.ops_manager_password.result}"
 }
 
 output om_decryption_password {
-  value = ${random_password.ops_manager_decryption_password.result}
+  value = "${random_password.ops_manager_decryption_password.result}"
 }
 
 output "dns_name" {
