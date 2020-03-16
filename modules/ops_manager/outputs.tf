@@ -1,4 +1,11 @@
 # ==================== Outputs
+output om_password {
+  value = ${random_password.ops_manager_password.result}
+}
+
+output om_decryption_password {
+  value = ${random_password.ops_manager_decryption_password.result}
+}
 
 output "dns_name" {
   value = "${azurerm_dns_a_record.ops_manager_dns.name}.${azurerm_dns_a_record.ops_manager_dns.zone_name}"

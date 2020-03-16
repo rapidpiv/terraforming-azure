@@ -1,3 +1,13 @@
+resource "random_password" "ops_manager_password" {
+  length  = 16
+  special = false
+}
+
+resource "random_password" "ops_manager_decryption_password" {
+  length  = 30
+  special = false
+}
+
 # ==================== Storage
 
 resource "azurerm_storage_account" "ops_manager_storage_account" {
