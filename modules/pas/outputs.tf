@@ -32,6 +32,10 @@ output "tcp_lb_name" {
 
 # Subnets
 
+output "pas_subnet_id" {
+  value = "${azurerm_subnet.pas_subnet.id}"
+}
+
 output "pas_subnet_name" {
   value = "${azurerm_subnet.pas_subnet.name}"
 }
@@ -42,6 +46,10 @@ output "pas_subnet_cidr" {
 
 output "pas_subnet_gateway" {
   value = "${cidrhost(azurerm_subnet.pas_subnet.address_prefix, 1)}"
+}
+
+output "services_subnet_id" {
+  value = "${azurerm_subnet.services_subnet.id}"
 }
 
 output "services_subnet_name" {
