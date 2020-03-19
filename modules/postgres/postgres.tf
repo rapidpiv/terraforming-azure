@@ -1,3 +1,8 @@
+resource "tls_private_key" "postgres" {
+  algorithm = "RSA"
+  rsa_bits  = "4096"
+}
+
 # resource "random_password" "ops_manager_password" {
 #   length  = 16
 #   special = false
@@ -9,19 +14,24 @@
 # }
 
 # # ==================== Storage
+resource random_string "ops_manager_storage_account_name" {
+  length  = 20
+  special = false
+  upper   = false
+}
 
-# resource "azurerm_storage_account" "ops_manager_storage_account" {
-#   name                     = "${random_string.ops_manager_storage_account_name.result}"
-#   resource_group_name      = "${var.resource_group_name}"
-#   location                 = "${var.location}"
-#   account_tier             = "Standard"
-#   account_replication_type = "LRS"
+resource "azurerm_storage_account" "postgres_storage_account" {
+  name                     = "${random_string.ops_manager_storage_account_name.result}"
+  resource_group_name      = "${var.resource_group_name}"
+  location                 = "${var.location}"
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
 
-#   tags = {
-#     environment = "${var.env_name}"
-#     account_for = "ops-manager"
-#   }
-# }
+  tags = {
+    environment = "${var.env_name}"
+    account_for = "postgres"
+  }
+}
 
 # resource "azurerm_storage_container" "ops_manager_storage_container" {
 #   name                  = "opsmanagerimage"
@@ -137,66 +147,41 @@ resource "azurerm_network_interface" "postgres_nic" {
 #   }
 # }
 
-# # ==================== OPTIONAL
+  resource "azurerm_linux_virtual_machine" "postgres_vm" {
 
-# resource "azurerm_public_ip" "optional_ops_manager_public_ip" {
-#   name                         = "${var.env_name}-optional-ops-manager-public-ip"
-#   location                     = "${var.location}"
-#   resource_group_name          = "${var.resource_group_name}"
-#   public_ip_address_allocation = "static"
-#   count                        = "${local.optional_ops_man_vm}"
-# }
+    name = "${var.env_name}-postgres-vm"
+    location                      = "${var.location}"
+    resource_group_name       = "${var.resource_group_name}"
+    network_interface_ids         = ["${azurerm_network_interface.postgres_nic.id}"]
+    size                  = "${var.postgres_vm_size}"
 
-# resource "azurerm_network_interface" "optional_ops_manager_nic" {
-#   name                      = "${var.env_name}-optional-ops-manager-nic"
-#   depends_on                = ["azurerm_public_ip.optional_ops_manager_public_ip"]
-#   location                  = "${var.location}"
-#   resource_group_name       = "${var.resource_group_name}"
-#   network_security_group_id = "${var.security_group_id}"
-#   count                     = "${local.optional_ops_man_vm}"
+    os_disk {
+      name              = "postgres-disk.vhd"
+      caching           = "ReadWrite"
+      storage_account_type = "Premium_LRS"
+    }
 
-#   ip_configuration {
-#     name                          = "${var.env_name}-optional-ops-manager-ip-config"
-#     subnet_id                     = "${var.subnet_id}"
-#     private_ip_address_allocation = "static"
-#     private_ip_address            = "10.0.8.5"
-#     public_ip_address_id          = "${azurerm_public_ip.optional_ops_manager_public_ip.id}"
-#   }
-# }
+    source_image_reference {
+      publisher = "OpenLogic"
+      offer     = "CentOS"
+      sku       = "7.5"
+      version   = "latest"
+    }
 
-# resource "azurerm_virtual_machine" "optional_ops_manager_vm" {
-#   name                  = "${var.env_name}-optional-ops-manager-vm"
-#   depends_on            = ["azurerm_network_interface.optional_ops_manager_nic"]
-#   location              = "${var.location}"
-#   resource_group_name   = "${var.resource_group_name}"
-#   network_interface_ids = ["${azurerm_network_interface.optional_ops_manager_nic.id}"]
-#   vm_size               = "${var.ops_manager_vm_size}"
-#   count                 = "${local.optional_ops_man_vm}"
+    computer_name  = "${var.env_name}-postgres"
+    admin_username = "admin"
+    disable_password_authentication = true
 
-#   storage_image_reference {
-#     id = "${azurerm_image.ops_manager_image.id}"
-#   }
+    admin_ssh_key {
+      username       = "admin"
+      public_key     = "${tls_private_key.postgres.public_key_openssh}"
+    }
 
-#   storage_os_disk {
-#     name              = "optional-opsman-disk"
-#     caching           = "ReadWrite"
-#     os_type           = "linux"
-#     create_option     = "FromImage"
-#     disk_size_gb      = "150"
-#     managed_disk_type = "Premium_LRS"
-#   }
+    boot_diagnostics {
+      storage_account_uri = "${azurerm_storage_account.postgres_storage_account.primary_blob_endpoint}"
+    }
 
-#   os_profile {
-#     computer_name  = "${var.env_name}-optional-ops-manager"
-#     admin_username = "ubuntu"
-#   }
-
-#   os_profile_linux_config {
-#     disable_password_authentication = true
-
-#     ssh_keys {
-#       path     = "/home/ubuntu/.ssh/authorized_keys"
-#       key_data = "${tls_private_key.ops_manager.public_key_openssh}"
-#     }
-#   }
-# }
+    tags = {
+      environment = "${var.env_name}"
+    }
+}
