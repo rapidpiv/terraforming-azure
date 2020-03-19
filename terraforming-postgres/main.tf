@@ -12,6 +12,22 @@ terraform {
   required_version = "< 0.12.0"
 }
 
+data "azurerm_resource_group" "postgres_resource_group" {
+  name = "${var.env_name}"
+}
+
+data "azurerm_subnet" "postgres_subnet" {
+  name                 = "${var.postgres_subnet_name}"
+  virtual_network_name = "${var.postgres_network_name}"
+  resource_group_name  = "${azurerm_resource_group.postgres_resource_group.name}"
+}
+
+data "azurerm_network_security_group" "postgres_security_group" {
+  name                = "${var.postgres_subnet_name}"
+  resource_group_name  = "${azurerm_resource_group.postgres_resource_group.name}"
+}
+
+
 # module "postgres" {
 #   source = "../modules/postgres"
 
