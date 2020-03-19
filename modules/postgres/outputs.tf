@@ -20,17 +20,17 @@ variable "postgres_vm_size" {
   default = ""
 }
 
-# variable "resource_group_name" {
-#   default = ""
-# }
+variable "resource_group_name" {
+  default = ""
+}
 
-# variable "security_group_id" {
-#   default = ""
-# }
+variable "security_group_id" {
+  default = ""
+}
 
-# variable "subnet_id" {
-#   default = ""
-# }
+variable "subnet_id" {
+  default = ""
+}
 
 # variable "dns_zone_name" {
 #   default = ""
