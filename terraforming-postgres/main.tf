@@ -43,6 +43,6 @@ module "postgres" {
 
   resource_group_name  = "${data.azurerm_resource_group.postgres_resource_group.name}"
   dns_zone_name       = "${data.azurerm_dns_zone.postgres_dns_zone.name}"
-  security_group_id   = "${data.azurerm_network_security_group.postgres_security_group.name}"
+  security_group_id   = "${data.azurerm_network_security_group.postgres_security_group.id}"
   subnet_id           = "${data.azurerm_subnet.postgres_subnet.id}"
 }
