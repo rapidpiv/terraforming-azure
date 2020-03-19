@@ -23,7 +23,7 @@ data "azurerm_subnet" "postgres_subnet" {
 }
 
 data "azurerm_network_security_group" "postgres_security_group" {
-  name                = "${var.postgres_subnet_name}"
+  name                = "${var.postgres_security_group_name}"
   resource_group_name  = "${data.azurerm_resource_group.postgres_resource_group.name}"
 }
 

@@ -28,6 +28,6 @@ variable "postgres_network_name" {
   type = "string"
 }
 
-variable "postgres_security_group" {
+variable "postgres_security_group_name" {
   type = "string"
 }
