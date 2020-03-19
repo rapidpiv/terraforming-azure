@@ -148,8 +148,3 @@ variable "pcf_services_subnet" {
 variable "ssh_trusted_sources" {
   type    = "list"
 }
-
-variable "postgres_vm_size" {
-  type    = "string"
-  default = "Standard_DS2_v3"
-}

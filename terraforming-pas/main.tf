@@ -88,18 +88,3 @@ module "isolation_segment" {
   resource_group_name = "${module.infra.resource_group_name}"
   dns_zone            = "${module.infra.dns_zone_name}"
 }
-
-module "postgres" {
-  source = "../modules/postgres"
-
-  env_name = "${var.env_name}"
-  location = "${var.location}"
-
-  postgres_vm_size    = "${var.postgres_vm_size}"
-  postgres_private_ip = "${cidrhost(module.pas.services_subnet_cidr, 5)}"
-
-  resource_group_name = "${module.infra.resource_group_name}"
-  dns_zone_name       = "${module.infra.dns_zone_name}"
-  security_group_id   = "${module.infra.bosh_deployed_vms_security_group_id}"
-  subnet_id           = "${module.pas.services_subnet_id}"
-}
