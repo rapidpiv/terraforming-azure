@@ -27,18 +27,22 @@ data "azurerm_network_security_group" "postgres_security_group" {
   resource_group_name  = "${data.azurerm_resource_group.postgres_resource_group.name}"
 }
 
+data "azurerm_dns_zone" "postgres_dns_zone" {
+  name                = "rapid-piv.dev.iace.mod.gov.uk"
+  resource_group_name  = "${data.azurerm_resource_group.postgres_resource_group.name}"
+}
 
-# module "postgres" {
-#   source = "../modules/postgres"
+module "postgres" {
+  source = "../modules/postgres"
 
-#   env_name = "${var.env_name}"
-#   location = "${var.location}"
+  env_name = "${var.env_name}"
+  location = "${var.location}"
 
-#   postgres_vm_size    = "${var.postgres_vm_size}"
-#   postgres_private_ip = "${cidrhost(module.pas.services_subnet_cidr, 5)}"
+  postgres_vm_size    = "${var.postgres_vm_size}"
+  postgres_private_ip = "${cidrhost(data.azurerm_subnet.postgres_subnet.address_prefix, 5)}"
 
-#   resource_group_name = "${module.infra.resource_group_name}"
-#   dns_zone_name       = "${module.infra.dns_zone_name}"
-#   security_group_id   = "${module.infra.bosh_deployed_vms_security_group_id}"
-#   subnet_id           = "${module.pas.services_subnet_id}"
-# }
+  resource_group_name  = "${data.azurerm_resource_group.postgres_resource_group.name}"
+  dns_zone_name       = "${data.azurerm_dns_zone.postgres_dns_zone.name}"
+  security_group_id   = "${data.azurerm_network_security_group.postgres_security_group.name}"
+  subnet_id           = "${data.azurerm_subnet.postgres_subnet.id}"
+}
