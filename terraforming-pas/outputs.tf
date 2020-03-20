@@ -36,7 +36,7 @@ locals {
     subnet_services_id       = "${module.pas.services_subnet_id}"
     subnet_services_cidr     = "${module.pas.services_subnet_cidr}"
     subnet_services_gateway  = "${module.pas.services_subnet_gateway}"
-    subnet_services_reserved = "${cidrhost(module.pas.services_subnet_cidr, 1)}-${cidrhost(module.pas.services_subnet_cidr, 10)}"
+    subnet_services_reserved = "${cidrhost(module.pas.services_subnet_cidr, 1)}-${cidrhost(module.pas.services_subnet_cidr, 15)}"
 
     lb_router     = "${module.pas.web_lb_name}"
 
