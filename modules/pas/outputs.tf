@@ -1,3 +1,7 @@
+output "credhub_provider_key" {
+  value = "${random_password.credhub_internal_provider_key.result}"
+}
+
 output "mysql_dns" {
   value = "mysql.${azurerm_dns_a_record.mysql.zone_name}"
 }

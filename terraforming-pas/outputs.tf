@@ -26,6 +26,8 @@ locals {
     subnet_management_gateway  = "${module.infra.infrastructure_subnet_gateway}"
     subnet_management_reserved = "${cidrhost(module.infra.infrastructure_subnet_cidr, 1)}-${cidrhost(module.infra.infrastructure_subnet_cidr, 10)}"
 
+    credhub_provider_key     = "${module.pas.credhub_provider_key}"
+
     subnet_pas_name     = "${module.pas.pas_subnet_name}"
     subnet_pas_id       = "${module.pas.pas_subnet_id}"
     subnet_pas_cidr     = "${module.pas.pas_subnet_cidr}"
