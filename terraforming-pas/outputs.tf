@@ -40,13 +40,11 @@ locals {
     subnet_services_gateway  = "${module.pas.services_subnet_gateway}"
     subnet_services_reserved = "${cidrhost(module.pas.services_subnet_cidr, 1)}-${cidrhost(module.pas.services_subnet_cidr, 15)}"
 
+    lb_ssh     = "${module.pas.diego_ssh_lb_name}"
     lb_router     = "${module.pas.web_lb_name}"
 
     dns_opsmanager = "${module.ops_manager.dns_name}"
     dns_zone = "${module.infra.dns_zone_name}"
-    # dns_web        = "${azurerm_dns_a_record.web.name}.${azurerm_dns_a_record.web.zone_name}"
-    # dns_credhub    = "${azurerm_dns_a_record.credhub.name}.${azurerm_dns_a_record.credhub.zone_name}"
-    # dns_uaa        = "${azurerm_dns_a_record.uaa.name}.${azurerm_dns_a_record.uaa.zone_name}"
 
     subscription_id = "${var.subscription_id}"
     tenant_id       = "${var.tenant_id}"
