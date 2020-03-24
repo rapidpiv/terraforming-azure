@@ -2,13 +2,13 @@ output "credhub_provider_key" {
   value = "${random_password.credhub_internal_provider_key.result}"
 }
 
-output "mysql_dns" {
-  value = "mysql.${azurerm_dns_a_record.mysql.zone_name}"
-}
+# output "mysql_dns" {
+#   value = "mysql.${azurerm_dns_a_record.mysql.zone_name}"
+# }
 
-output "tcp_domain" {
-  value = "tcp.${azurerm_dns_a_record.tcp.zone_name}"
-}
+# output "tcp_domain" {
+#   value = "tcp.${azurerm_dns_a_record.tcp.zone_name}"
+# }
 
 output "sys_domain" {
   value = "sys.${azurerm_dns_a_record.sys.zone_name}"
@@ -26,13 +26,13 @@ output "diego_ssh_lb_name" {
   value = "${azurerm_lb.diego-ssh.name}"
 }
 
-output "mysql_lb_name" {
-  value = "${azurerm_lb.mysql.name}"
-}
+# output "mysql_lb_name" {
+#   value = "${azurerm_lb.mysql.name}"
+# }
 
-output "tcp_lb_name" {
-  value = "${azurerm_lb.tcp.name}"
-}
+# output "tcp_lb_name" {
+#   value = "${azurerm_lb.tcp.name}"
+# }
 
 # Subnets
 
