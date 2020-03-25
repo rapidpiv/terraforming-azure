@@ -17,7 +17,7 @@ variable "location" {}
 
 variable "postgres_vm_size" {
   type    = "string"
-  default = "Standard_DS2_v3"
+  default = "Standard_D2S_v3"
 }
 
 variable "postgres_subnet_name" {
