@@ -88,7 +88,7 @@ resource "azurerm_virtual_machine" "postgres_vm" {
   }
 
   provisioner "remote-exec" {
-    inline = ["sudo yum -y install python"]
+    inline = ["sudo yum -y install tasdasfsdfsdf"]
 
     connection {
       type        = "ssh"
