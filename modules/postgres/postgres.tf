@@ -65,13 +65,13 @@ resource "azurerm_virtual_machine" "postgres_vm" {
 
   os_profile {
     computer_name  = "${var.env_name}-postgres"
-    admin_username = "admin"
+    admin_username = "pgadmin"
   }
 
   os_profile_linux_config {
     disable_password_authentication = true
     ssh_keys {
-      path     = "/home/admin/.ssh/authorized_keys"
+      path     = "/home/pgadmin/.ssh/authorized_keys"
       key_data = "${tls_private_key.postgres.public_key_openssh}"
     }
   }
