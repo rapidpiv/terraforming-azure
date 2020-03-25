@@ -27,10 +27,10 @@ data "azurerm_network_security_group" "postgres_security_group" {
   resource_group_name  = "${data.azurerm_resource_group.postgres_resource_group.name}"
 }
 
-data "azurerm_dns_zone" "postgres_dns_zone" {
-  name                = "rapid-piv.dev.iace.mod.gov.uk"
-  resource_group_name  = "${data.azurerm_resource_group.postgres_resource_group.name}"
-}
+# data "azurerm_dns_zone" "postgres_dns_zone" {
+#   name                = "rapid-piv.dev.iace.mod.gov.uk"
+#   resource_group_name  = "${data.azurerm_resource_group.postgres_resource_group.name}"
+# }
 
 module "postgres" {
   source = "../modules/postgres"
