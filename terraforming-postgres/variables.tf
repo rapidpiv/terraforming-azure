@@ -19,15 +19,3 @@ variable "postgres_vm_size" {
   type    = "string"
   default = "Standard_D2S_v3"
 }
-
-variable "postgres_subnet_name" {
-  type = "string"
-}
-
-variable "postgres_network_name" {
-  type = "string"
-}
-
-variable "postgres_security_group_name" {
-  type = "string"
-}
