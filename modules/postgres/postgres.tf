@@ -88,12 +88,12 @@ resource "azurerm_virtual_machine" "postgres_vm" {
   }
 
   provisioner "remote-exec" {
-    inline = ["sudo yum -y install tasdasfsdfsdf"]
+    inline = ["sudo yum -y install python"]
 
     connection {
       type        = "ssh"
       user        = "pgadmin"
-      private_key = "${file(var.postgres_private_key)}"
+      private_key = "${var.postgres_private_key}"
     }
   }
 }
