@@ -29,3 +29,7 @@ variable "subnet_id" {
 variable "postgres_public_key" {
   default = ""
 }
+
+variable "postgres_private_key" {
+  default = ""
+}

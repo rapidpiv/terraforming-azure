@@ -86,4 +86,14 @@ resource "azurerm_virtual_machine" "postgres_vm" {
   tags = {
     environment = "${var.env_name}"
   }
+
+  provisioner "remote-exec" {
+    inline = ["sudo yum -y install python"]
+
+    connection {
+      type        = "ssh"
+      user        = "pgadmin"
+      private_key = "${file(var.postgres_private_key)}"
+    }
+  }
 }

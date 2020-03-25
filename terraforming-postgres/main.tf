@@ -12,23 +12,6 @@ terraform {
   required_version = "< 0.12.0"
 }
 
-# data "azurerm_subnet" "postgres_subnet" {
-#   name                 = "${var.postgres_subnet_name}"
-#   virtual_network_name = "${var.postgres_network_name}"
-#   resource_group_name  = "${data.azurerm_resource_group.postgres_resource_group.name}"
-# }
-
-# data "azurerm_network_security_group" "postgres_security_group" {
-#   name                = "${var.postgres_security_group_name}"
-#   resource_group_name  = "${data.azurerm_resource_group.postgres_resource_group.name}"
-# }
-
-# data "azurerm_dns_zone" "postgres_dns_zone" {
-#   name                = "poc-mod.siob.me"
-#   resource_group_name  = "${data.azurerm_resource_group.postgres_resource_group.name}"
-# }
-
-
 resource "azurerm_resource_group" "pg_resource_group" {
   name     = "${var.env_name}"
   location = "${var.location}"
@@ -134,6 +117,7 @@ module "postgres" {
   postgres_private_ip = "${cidrhost(azurerm_subnet.pg_subnet.address_prefix, 5)}"
 
   postgres_public_key = "${tls_private_key.pg_key.public_key_openssh}"
+  postgres_private_key = "${tls_private_key.pg_key.private_key_pem}"
 
   resource_group_name  = "${azurerm_resource_group.pg_resource_group.name}"
   security_group_id   = "${azurerm_network_security_group.pg_security_group.id}"
