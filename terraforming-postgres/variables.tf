@@ -29,3 +29,7 @@ variable "postgres_vm_size" {
   type    = "string"
   default = "Standard_D2S_v3"
 }
+
+variable "ssh_trusted_sources" {
+  type    = "list"
+}
