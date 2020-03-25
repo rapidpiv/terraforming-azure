@@ -14,14 +14,14 @@ resource "tls_private_key" "postgres" {
 # }
 
 # # ==================== Storage
-resource random_string "ops_manager_storage_account_name" {
+resource random_string "postgres_storage_account_name" {
   length  = 20
   special = false
   upper   = false
 }
 
 resource "azurerm_storage_account" "postgres_storage_account" {
-  name                     = "${random_string.ops_manager_storage_account_name.result}"
+  name                     = "${random_string.postgres_storage_account_name.result}"
   resource_group_name      = "${var.resource_group_name}"
   location                 = "${var.location}"
   account_tier             = "Standard"
