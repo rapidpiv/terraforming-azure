@@ -147,34 +147,41 @@ resource "azurerm_network_interface" "postgres_nic" {
 #   }
 # }
 
-  resource "azurerm_linux_virtual_machine" "postgres_vm" {
+  resource "azurerm_virtual_machine" "postgres_vm" {
 
     name = "${var.env_name}-postgres-vm"
     location                      = "${var.location}"
     resource_group_name       = "${var.resource_group_name}"
     network_interface_ids         = ["${azurerm_network_interface.postgres_nic.id}"]
-    size                  = "${var.postgres_vm_size}"
+    vm_size                  = "${var.postgres_vm_size}"
 
-    os_disk {
+    storage_os_disk {
       name              = "postgres-disk.vhd"
       caching           = "ReadWrite"
-      storage_account_type = "Premium_LRS"
+      os_type           = "linux"
+      create_option     = "FromImage"
+      disk_size_gb      = "150"
+      managed_disk_type = "Premium_LRS"
     }
 
-    source_image_reference {
+    os_profile {
+      computer_name  = "${var.env_name}-postgres"
+      admin_username = "admin"
+    }
+
+    os_profile_linux_config {
+      disable_password_authentication = true
+      ssh_keys {
+        path     = "/home/admin/.ssh/authorized_keys"
+        key_data = "${tls_private_key.postgres.public_key_openssh}"
+      }
+    }
+
+    storage_image_reference {
       publisher = "OpenLogic"
       offer     = "CentOS"
       sku       = "7.5"
       version   = "latest"
-    }
-
-    computer_name  = "${var.env_name}-postgres"
-    admin_username = "admin"
-    disable_password_authentication = true
-
-    admin_ssh_key {
-      username       = "admin"
-      public_key     = "${tls_private_key.postgres.public_key_openssh}"
     }
 
     boot_diagnostics {
