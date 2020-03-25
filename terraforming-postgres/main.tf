@@ -119,17 +119,23 @@ resource "azurerm_subnet" "pg_subnet" {
   network_security_group_id = "${azurerm_network_security_group.pg_security_group.id}"
 }
 
-# module "postgres" {
-#   source = "../modules/postgres"
+resource "tls_private_key" "pg_key" {
+  algorithm = "RSA"
+  rsa_bits  = "4096"
+}
 
-#   env_name = "${var.env_name}"
-#   location = "${var.location}"
+module "postgres" {
+  source = "../modules/postgres"
 
-#   postgres_vm_size    = "${var.postgres_vm_size}"
-#   postgres_private_ip = "${cidrhost(data.azurerm_subnet.postgres_subnet.address_prefix, 5)}"
+  env_name = "${var.env_name}"
+  location = "${var.location}"
 
-#   resource_group_name  = "${data.azurerm_resource_group.postgres_resource_group.name}"
-#   dns_zone_name       = "${data.azurerm_dns_zone.postgres_dns_zone.name}"
-#   security_group_id   = "${data.azurerm_network_security_group.postgres_security_group.id}"
-#   subnet_id           = "${data.azurerm_subnet.postgres_subnet.id}"
-# }
+  postgres_vm_size    = "${var.postgres_vm_size}"
+  postgres_private_ip = "${cidrhost(azurerm_subnet.pg_subnet.address_prefix, 5)}"
+
+  postgres_public_key = "${tls_private_key.pg_key.public_key_openssh}"
+
+  resource_group_name  = "${azurerm_resource_group.pg_resource_group.name}"
+  security_group_id   = "${azurerm_network_security_group.pg_security_group.id}"
+  subnet_id           = "${azurerm_subnet.pg_subnet.id}"
+}

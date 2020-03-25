@@ -1,8 +1,3 @@
-resource "tls_private_key" "postgres" {
-  algorithm = "RSA"
-  rsa_bits  = "4096"
-}
-
 resource random_string "postgres_storage_account_name" {
   length  = 20
   special = false
@@ -72,7 +67,8 @@ resource "azurerm_virtual_machine" "postgres_vm" {
     disable_password_authentication = true
     ssh_keys {
       path     = "/home/pgadmin/.ssh/authorized_keys"
-      key_data = "${tls_private_key.postgres.public_key_openssh}"
+      # key_data = "${tls_private_key.postgres.public_key_openssh}"
+      key_data = "${var.postgres_public_key}"
     }
   }
 
