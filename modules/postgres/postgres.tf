@@ -184,9 +184,9 @@ resource "azurerm_network_interface" "postgres_nic" {
       version   = "latest"
     }
 
-    boot_diagnostics {
-      storage_account_uri = "${azurerm_storage_account.postgres_storage_account.primary_blob_endpoint}"
-    }
+    # boot_diagnostics {
+    #   storage_account_uri = "${azurerm_storage_account.postgres_storage_account.primary_blob_endpoint}"
+    # }
 
     tags = {
       environment = "${var.env_name}"
