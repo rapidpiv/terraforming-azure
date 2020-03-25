@@ -7,7 +7,7 @@ locals {
     network             = "${azurerm_virtual_network.pg_virtual_network.name}"
     resource_group_name = "${azurerm_resource_group.pg_resource_group.name}"
 
-    postgres_private_key = "${tls_private_key.pg_key.private_key_openssh}"
+    postgres_private_key = "${tls_private_key.pg_key.private_key_pem}"
     postgres_public_key  = "${tls_private_key.pg_key.public_key_openssh}"
 
     # postgres_public_ip   = "${module.ops_manager.ops_manager_public_ip}"
