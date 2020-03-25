@@ -15,6 +15,16 @@ variable "client_secret" {}
 
 variable "location" {}
 
+variable "pg_virtual_network_address_space" {
+  type    = "list"
+  default = ["10.0.0.0/16"]
+}
+
+variable "pg_subnet" {
+  type    = "string"
+  default = "10.0.8.0/26"
+}
+
 variable "postgres_vm_size" {
   type    = "string"
   default = "Standard_D2S_v3"
