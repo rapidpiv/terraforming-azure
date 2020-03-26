@@ -28,26 +28,26 @@ resource "azurerm_public_ip" "postgres_public_ip" {
   idle_timeout_in_minutes = 30
 }
 
-# resource "azurerm_network_interface" "postgres_nic" {
+resource "azurerm_network_interface" "postgres_nic" {
 
-#   count                   = "${var.postgres_vm_count}"
+  count                   = "${var.postgres_vm_count}"
 
-#   name                      = "${var.env_name}-postgres-nic-${count.index}"
+  name                      = "${var.env_name}-postgres-nic-${count.index}"
   
-#   depends_on                = ["${element(azurerm_public_ip.postgres_public_ip.*, count.index)}"]
-#   # depends_on                = ["azurerm_public_ip.postgres_public_ip.*"]
-#   location                  = "${var.location}"
-#   resource_group_name       = "${var.resource_group_name}"
-#   network_security_group_id = "${var.security_group_id}"
+  depends_on                = ["${element(azurerm_public_ip.postgres_public_ip.*, count.index)}"]
+  # depends_on                = ["azurerm_public_ip.postgres_public_ip.*"]
+  location                  = "${var.location}"
+  resource_group_name       = "${var.resource_group_name}"
+  network_security_group_id = "${var.security_group_id}"
 
-#   ip_configuration {
-#     name                          = "${var.env_name}-postgres-ip-config"
-#     subnet_id                     = "${var.subnet_id}"
-#     private_ip_address_allocation = "static"
-#     private_ip_address            = "${var.postgres_private_ip}"
-#     public_ip_address_id          = "${azurerm_public_ip.postgres_public_ip.id}"
-#   }
-# }
+  ip_configuration {
+    name                          = "${var.env_name}-postgres-ip-config"
+    subnet_id                     = "${var.subnet_id}"
+    private_ip_address_allocation = "static"
+    private_ip_address            = "${var.postgres_private_ip}"
+    public_ip_address_id          = "${element(azurerm_public_ip.postgres_public_ip.*.id, count.index)}"
+  }
+}
 
 # resource "azurerm_virtual_machine" "postgres_vm" {
 
