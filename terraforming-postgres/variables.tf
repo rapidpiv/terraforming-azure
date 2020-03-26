@@ -30,6 +30,10 @@ variable "postgres_vm_size" {
   default = "Standard_D2S_v3"
 }
 
+variable "postgres_vm_count" {
+  default = 3
+}
+
 variable "ssh_trusted_sources" {
   type    = "list"
 }

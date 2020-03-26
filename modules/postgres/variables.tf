@@ -33,3 +33,5 @@ variable "postgres_public_key" {
 variable "postgres_private_key" {
   default = ""
 }
+
+variable "postgres_vm_count" { }

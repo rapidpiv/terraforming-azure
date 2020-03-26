@@ -18,7 +18,10 @@ resource random_string "postgres_storage_account_name" {
 # }
 
 resource "azurerm_public_ip" "postgres_public_ip" {
-  name                    = "${var.env_name}-postgres-public-ip"
+
+  count                   = "${var.postgres_vm_count}"
+
+  name                    = "${var.env_name}-postgres-public-ip-${count.index}"
   location                = "${var.location}"
   resource_group_name     = "${var.resource_group_name}"
   allocation_method       = "Static"
@@ -26,8 +29,11 @@ resource "azurerm_public_ip" "postgres_public_ip" {
 }
 
 resource "azurerm_network_interface" "postgres_nic" {
-  name                      = "${var.env_name}-postgres-nic"
-  depends_on                = ["azurerm_public_ip.postgres_public_ip"]
+
+  count                   = "${var.postgres_vm_count}"
+
+  name                      = "${var.env_name}-postgres-nic-${count.index}"
+  depends_on                = ["azurerm_public_ip.postgres_public_ip.*"]
   location                  = "${var.location}"
   resource_group_name       = "${var.resource_group_name}"
   network_security_group_id = "${var.security_group_id}"
@@ -43,10 +49,12 @@ resource "azurerm_network_interface" "postgres_nic" {
 
 resource "azurerm_virtual_machine" "postgres_vm" {
 
-  name = "${var.env_name}-postgres-vm"
+  count                   = "${var.postgres_vm_count}"
+  
+  name = "${var.env_name}-postgres-vm-${count.index}"
   location                      = "${var.location}"
   resource_group_name       = "${var.resource_group_name}"
-  network_interface_ids         = ["${azurerm_network_interface.postgres_nic.id}"]
+  network_interface_ids         = ["${azurerm_network_interface.postgres_nic.*.id}"]
   vm_size                  = "${var.postgres_vm_size}"
 
   storage_os_disk {

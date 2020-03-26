@@ -113,6 +113,7 @@ module "postgres" {
   env_name = "${var.env_name}"
   location = "${var.location}"
 
+  postgres_vm_count   = "${var.postgres_vm_count}"
   postgres_vm_size    = "${var.postgres_vm_size}"
   postgres_private_ip = "${cidrhost(azurerm_subnet.pg_subnet.address_prefix, 5)}"
 
