@@ -50,24 +50,24 @@ resource "azurerm_network_interface" "postgres_nic" {
   }
 }
 
-# resource "azurerm_virtual_machine" "postgres_vm" {
+resource "azurerm_virtual_machine" "postgres_vm" {
 
-#   count                   = "${var.postgres_vm_count}"
+  count                   = "${var.postgres_vm_count}"
   
-#   name = "${var.env_name}-postgres-vm-${count.index}"
-#   location                      = "${var.location}"
-#   resource_group_name       = "${var.resource_group_name}"
-#   network_interface_ids         = ["${azurerm_network_interface.postgres_nic.*.id}"]
-#   vm_size                  = "${var.postgres_vm_size}"
+  name = "${var.env_name}-postgres-vm-${count.index}"
+  location                      = "${var.location}"
+  resource_group_name       = "${var.resource_group_name}"
+  network_interface_ids         = ["${element(azurerm_network_interface.postgres_nic.*.id, count.index)}"]
+  vm_size                  = "${var.postgres_vm_size}"
 
-#   storage_os_disk {
-#     name              = "postgres-disk.vhd"
-#     caching           = "ReadWrite"
-#     os_type           = "linux"
-#     create_option     = "FromImage"
-#     disk_size_gb      = "150"
-#     managed_disk_type = "Premium_LRS"
-#   }
+  storage_os_disk {
+    name              = "postgres-disk.vhd"
+    caching           = "ReadWrite"
+    os_type           = "linux"
+    create_option     = "FromImage"
+    disk_size_gb      = "150"
+    managed_disk_type = "Premium_LRS"
+  }
 
 #   os_profile {
 #     computer_name  = "${var.env_name}-postgres"
