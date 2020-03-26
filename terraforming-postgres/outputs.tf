@@ -10,7 +10,7 @@ locals {
     postgres_private_key = "${tls_private_key.pg_key.private_key_pem}"
     postgres_public_key  = "${tls_private_key.pg_key.public_key_openssh}"
 
-    postgres_public_ip   = "${module.postgres.postgres_public_ip}"
+    postgres_public_ips   = "${module.postgres.postgres_public_ips}"
 
     subscription_id = "${var.subscription_id}"
     tenant_id       = "${var.tenant_id}"

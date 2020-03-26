@@ -116,7 +116,6 @@ module "postgres" {
   postgres_vm_count   = "${var.postgres_vm_count}"
   postgres_vm_size    = "${var.postgres_vm_size}"
   postgres_subnet_cidr = "${azurerm_subnet.pg_subnet.address_prefix}"
-  # postgres_private_ip = "${cidrhost(azurerm_subnet.pg_subnet.address_prefix, 5)}"
 
   postgres_public_key = "${tls_private_key.pg_key.public_key_openssh}"
   postgres_private_key = "${tls_private_key.pg_key.private_key_pem}"
