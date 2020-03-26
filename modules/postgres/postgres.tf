@@ -61,7 +61,7 @@ resource "azurerm_virtual_machine" "postgres_vm" {
   vm_size                  = "${var.postgres_vm_size}"
 
   storage_os_disk {
-    name              = "postgres-disk.vhd"
+    name              = "postgres-disk-${count.index}.vhd"
     caching           = "ReadWrite"
     os_type           = "linux"
     create_option     = "FromImage"
