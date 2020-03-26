@@ -34,7 +34,7 @@ resource "azurerm_network_interface" "postgres_nic" {
 
   name                      = "${var.env_name}-postgres-nic-${count.index}"
   
-  depends_on                = ["${element(azurerm_public_ip.postgres_public_ip.*, count.index)}"]
+  # depends_on                = ["${element(azurerm_public_ip.postgres_public_ip.*, count.index)}"]
   # depends_on                = ["azurerm_public_ip.postgres_public_ip.*"]
   location                  = "${var.location}"
   resource_group_name       = "${var.resource_group_name}"
