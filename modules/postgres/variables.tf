@@ -6,7 +6,7 @@ variable "location" {
   default = ""
 }
 
-variable "postgres_private_ip" {
+variable "postgres_subnet_cidr" {
   default = ""
 }
 

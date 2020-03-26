@@ -40,11 +40,12 @@ resource "azurerm_network_interface" "postgres_nic" {
   resource_group_name       = "${var.resource_group_name}"
   network_security_group_id = "${var.security_group_id}"
 
+
   ip_configuration {
     name                          = "${var.env_name}-postgres-ip-config"
     subnet_id                     = "${var.subnet_id}"
     private_ip_address_allocation = "static"
-    private_ip_address            = "${var.postgres_private_ip}"
+    private_ip_address            = "${cidrhost(var.postgres_subnet_cidr, count.index)}"
     public_ip_address_id          = "${element(azurerm_public_ip.postgres_public_ip.*.id, count.index)}"
   }
 }
