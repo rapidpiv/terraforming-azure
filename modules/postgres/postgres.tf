@@ -4,18 +4,18 @@ resource random_string "postgres_storage_account_name" {
   upper   = false
 }
 
-resource "azurerm_storage_account" "postgres_storage_account" {
-  name                     = "${random_string.postgres_storage_account_name.result}"
-  resource_group_name      = "${var.resource_group_name}"
-  location                 = "${var.location}"
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
+# resource "azurerm_storage_account" "postgres_storage_account" {
+#   name                     = "${random_string.postgres_storage_account_name.result}"
+#   resource_group_name      = "${var.resource_group_name}"
+#   location                 = "${var.location}"
+#   account_tier             = "Standard"
+#   account_replication_type = "LRS"
 
-  tags = {
-    environment = "${var.env_name}"
-    account_for = "postgres"
-  }
-}
+#   tags = {
+#     environment = "${var.env_name}"
+#     account_for = "postgres"
+#   }
+# }
 
 resource "azurerm_public_ip" "postgres_public_ip" {
   name                    = "${var.env_name}-postgres-public-ip"
@@ -67,7 +67,6 @@ resource "azurerm_virtual_machine" "postgres_vm" {
     disable_password_authentication = true
     ssh_keys {
       path     = "/home/pgadmin/.ssh/authorized_keys"
-      # key_data = "${tls_private_key.postgres.public_key_openssh}"
       key_data = "${var.postgres_public_key}"
     }
   }
@@ -78,10 +77,6 @@ resource "azurerm_virtual_machine" "postgres_vm" {
     sku       = "7.5"
     version   = "latest"
   }
-
-  # boot_diagnostics {
-  #   storage_account_uri = "${azurerm_storage_account.postgres_storage_account.primary_blob_endpoint}"
-  # }
 
   tags = {
     environment = "${var.env_name}"
