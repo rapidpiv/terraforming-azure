@@ -101,4 +101,4 @@ resource "azurerm_public_ip" "postgres_public_ip" {
 #       private_key = "${var.postgres_private_key}"
 #     }
 #   }
-}
+# }
