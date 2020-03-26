@@ -69,37 +69,37 @@ resource "azurerm_virtual_machine" "postgres_vm" {
     managed_disk_type = "Premium_LRS"
   }
 
-#   os_profile {
-#     computer_name  = "${var.env_name}-postgres"
-#     admin_username = "pgadmin"
-#   }
+  os_profile {
+    computer_name  = "${var.env_name}-postgres"
+    admin_username = "pgadmin"
+  }
 
-#   os_profile_linux_config {
-#     disable_password_authentication = true
-#     ssh_keys {
-#       path     = "/home/pgadmin/.ssh/authorized_keys"
-#       key_data = "${var.postgres_public_key}"
-#     }
-#   }
+  os_profile_linux_config {
+    disable_password_authentication = true
+    ssh_keys {
+      path     = "/home/pgadmin/.ssh/authorized_keys"
+      key_data = "${var.postgres_public_key}"
+    }
+  }
 
-#   storage_image_reference {
-#     publisher = "OpenLogic"
-#     offer     = "CentOS"
-#     sku       = "7.5"
-#     version   = "latest"
-#   }
+  storage_image_reference {
+    publisher = "OpenLogic"
+    offer     = "CentOS"
+    sku       = "7.5"
+    version   = "latest"
+  }
 
-#   tags = {
-#     environment = "${var.env_name}"
-#   }
+  tags = {
+    environment = "${var.env_name}"
+  }
 
-#   provisioner "remote-exec" {
-#     inline = ["sudo yum -y install python"]
+  provisioner "remote-exec" {
+    inline = ["sudo yum -y install python"]
 
-#     connection {
-#       type        = "ssh"
-#       user        = "pgadmin"
-#       private_key = "${var.postgres_private_key}"
-#     }
-#   }
-# }
+    connection {
+      type        = "ssh"
+      user        = "pgadmin"
+      private_key = "${var.postgres_private_key}"
+    }
+  }
+}
