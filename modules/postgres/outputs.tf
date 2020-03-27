@@ -6,5 +6,5 @@ output "postgres_public_ips" {
 }
 
 output "postgres_host_names" {
-  value = "${local.os_profiles}"
+  value = "${local.os_profiles.*.computer_name}"
 }
