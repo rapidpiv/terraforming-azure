@@ -67,7 +67,7 @@ resource "azurerm_virtual_machine" "postgres_vm" {
   }
 
   os_profile {
-    computer_name  = "${var.env_name}-postgres"
+    computer_name  = "${var.env_name}-postgres-${count.index}"
     admin_username = "pgadmin"
   }
 
