@@ -3,5 +3,5 @@ output "postgres_public_ips" {
 }
 
 output "postgres_host_names" {
-  value = "${azurerm_virtual_machine.postgres_vm.*.os_profile}"
+  value = "${azurerm_virtual_machine.postgres_vm.*.os_profile[computer_name]}"
 }
