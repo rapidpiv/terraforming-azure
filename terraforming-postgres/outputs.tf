@@ -11,24 +11,16 @@ locals {
     postgres_public_key  = "${tls_private_key.pg_key.public_key_openssh}"
 
     postgres_public_ips   = "${module.postgres.postgres_public_ips}"
+    postgres_host_names   = "${module.postgres.postgres_host_names}"
 
     subscription_id = "${var.subscription_id}"
     tenant_id       = "${var.tenant_id}"
     client_id       = "${var.client_id}"
     client_secret   = "${var.client_secret}"
   }
-
-  ansible_hosts = {
-    all = "123"
-  }
 }
 
 output "stable_config" {
   value     = "${jsonencode(local.stable_config)}"
-  sensitive = false
-}
-
-output "ansible_hosts" {
-  value     = "${yamlencode(local.ansible_hosts)}"
   sensitive = false
 }
