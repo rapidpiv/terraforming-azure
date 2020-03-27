@@ -8,5 +8,5 @@ output "postgres_public_ips" {
 }
 
 output "postgres_host_names" {
-  value = ${data.template_file.data_id.*.rendered}"
+  value = "${data.template_file.data_id.*.rendered}"
 }
