@@ -17,9 +17,18 @@ locals {
     client_id       = "${var.client_id}"
     client_secret   = "${var.client_secret}"
   }
+
+  ansible_hosts = {
+    all = "123"
+  }
 }
 
 output "stable_config" {
   value     = "${jsonencode(local.stable_config)}"
+  sensitive = false
+}
+
+output "ansible_hosts" {
+  value     = "${yamlencode(local.ansible_hosts)}"
   sensitive = false
 }
