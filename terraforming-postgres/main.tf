@@ -117,7 +117,7 @@ resource "azurerm_network_security_group" "pg_security_group" {
 
   security_rule {
     name                       = "postgres"
-    priority                   = 207
+    priority                   = 208
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "*"
