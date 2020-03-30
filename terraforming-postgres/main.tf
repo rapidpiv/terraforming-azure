@@ -67,53 +67,53 @@ resource "azurerm_network_security_group" "pg_security_group" {
     destination_address_prefix = "*"
   }
 
-  security_rule {
-    name                       = "http"
-    priority                   = 204
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = 80
-    source_address_prefix      = "Internet"
-    destination_address_prefix = "*"
-  }
+  # security_rule {
+  #   name                       = "http"
+  #   priority                   = 204
+  #   direction                  = "Inbound"
+  #   access                     = "Allow"
+  #   protocol                   = "*"
+  #   source_port_range          = "*"
+  #   destination_port_range     = 80
+  #   source_address_prefix      = "Internet"
+  #   destination_address_prefix = "*"
+  # }
 
-  security_rule {
-    name                       = "https"
-    priority                   = 205
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = 443
-    source_address_prefix      = "Internet"
-    destination_address_prefix = "*"
-  }
+  # security_rule {
+  #   name                       = "https"
+  #   priority                   = 205
+  #   direction                  = "Inbound"
+  #   access                     = "Allow"
+  #   protocol                   = "*"
+  #   source_port_range          = "*"
+  #   destination_port_range     = 443
+  #   source_address_prefix      = "Internet"
+  #   destination_address_prefix = "*"
+  # }
 
-  security_rule {
-    name                       = "etcd-client"
-    priority                   = 206
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = 2379
-    source_address_prefix      = "Internet"
-    destination_address_prefix = "*"
-  }
+  # security_rule {
+  #   name                       = "etcd-client"
+  #   priority                   = 206
+  #   direction                  = "Inbound"
+  #   access                     = "Allow"
+  #   protocol                   = "*"
+  #   source_port_range          = "*"
+  #   destination_port_range     = 2379
+  #   source_address_prefix      = "Internet"
+  #   destination_address_prefix = "*"
+  # }
 
-  security_rule {
-    name                       = "etcd-peer"
-    priority                   = 207
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = 2380
-    source_address_prefix      = "Internet"
-    destination_address_prefix = "*"
-  }
+  # security_rule {
+  #   name                       = "etcd-peer"
+  #   priority                   = 207
+  #   direction                  = "Inbound"
+  #   access                     = "Allow"
+  #   protocol                   = "*"
+  #   source_port_range          = "*"
+  #   destination_port_range     = 2380
+  #   source_address_prefix      = "Internet"
+  #   destination_address_prefix = "*"
+  # }
 
   security_rule {
     name                       = "postgres"
