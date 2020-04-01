@@ -69,7 +69,7 @@ resource "azurerm_lb_backend_address_pool" "pg-secondary-lb-backend-pool" {
 resource "azurerm_lb_probe" "pg-secondary-lb-probe" {
   name                = "pg-secondary-lb-probe"
   resource_group_name = "${var.resource_group_name}"
-  loadbalancer_id     = "${azurerm_lb.pg-secondary-lb.id}"
+  loadbalancer_id     = "${azurerm_lb.pg-lb.id}"
   protocol            = "HTTP"
   port                = 8008
   request_path        = "/replica"
@@ -78,7 +78,7 @@ resource "azurerm_lb_probe" "pg-secondary-lb-probe" {
 resource "azurerm_lb_rule" "pg-secondary-postgres-rule" {
   name                = "postgres-rule"
   resource_group_name = "${var.resource_group_name}"
-  loadbalancer_id     = "${azurerm_lb.pg-secondary-lb.id}"
+  loadbalancer_id     = "${azurerm_lb.pg-lb.id}"
 
   frontend_ip_configuration_name = "secondary"
   protocol                       = "TCP"
