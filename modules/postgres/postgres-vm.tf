@@ -35,22 +35,22 @@ resource "azurerm_network_interface" "pg_vm_nic" {
   }
 }
 
-resource "azurerm_network_interface_backend_address_pool_association" "pg-nic-backend-master-pool-association" {
+resource "azurerm_network_interface_backend_address_pool_association" "pg-vm-nic-rw-backend-pool-association" {
 
   count                   = "${var.postgres_vm_count}"
 
   network_interface_id    = "${element(azurerm_network_interface.pg_vm_nic.*.id, count.index)}"
   ip_configuration_name   = "${var.env_name}-pg-ip-config-${count.index}"
-  backend_address_pool_id = "${azurerm_lb_backend_address_pool.pg-master-lb-backend-pool.id}"
+  backend_address_pool_id = "${azurerm_lb_backend_address_pool.pg-lb-rw-backend-pool.id}"
 }
 
-resource "azurerm_network_interface_backend_address_pool_association" "pg-nic-backend-secondary-pool-association" {
+resource "azurerm_network_interface_backend_address_pool_association" "pg-nic-ro-backend-pool-association" {
 
   count                   = "${var.postgres_vm_count}"
 
   network_interface_id    = "${element(azurerm_network_interface.pg_vm_nic.*.id, count.index)}"
   ip_configuration_name   = "${var.env_name}-pg-ip-config-${count.index}"
-  backend_address_pool_id = "${azurerm_lb_backend_address_pool.pg-secondary-lb-backend-pool.id}"
+  backend_address_pool_id = "${azurerm_lb_backend_address_pool.pg-lb-ro-backend-pool.id}"
 }
 
 resource "azurerm_virtual_machine" "pg_vm" {
