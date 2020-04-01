@@ -1,13 +1,13 @@
-resource "azurerm_public_ip" "pg-master-lb-public-ip" {
-  name                = "pg-master-lb-public-ip"
+resource "azurerm_public_ip" "pg-lb-rw-public-ip" {
+  name                = "pg-lb-rw-public-ip"
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
   allocation_method   = "Static"
   sku                 = "Standard"
 }
 
- resource "azurerm_public_ip" "pg-secondary-lb-public-ip" {
-   name                = "pg-secondary-lb-public-ip"
+ resource "azurerm_public_ip" "pg-lb-ro-public-ip" {
+   name                = "pg-lb-ro-public-ip"
    location            = "${var.location}"
    resource_group_name = "${var.resource_group_name}"
    allocation_method   = "Static"
@@ -21,24 +21,30 @@ resource "azurerm_lb" "pg-lb" {
   sku                 = "Standard"
 
   frontend_ip_configuration = {
-    name                 = "master"
-    public_ip_address_id = "${azurerm_public_ip.pg-master-lb-public-ip.id}"
+    name                 = "read-write"
+    public_ip_address_id = "${azurerm_public_ip.pg-lb-rw-public-ip.id}"
   }
 
   frontend_ip_configuration = {
-    name                 = "secondary"
-    public_ip_address_id = "${azurerm_public_ip.pg-secondary-lb-public-ip.id}"
+    name                 = "read-only"
+    public_ip_address_id = "${azurerm_public_ip.pg-lb-ro-public-ip.id}"
   }
 }
 
-resource "azurerm_lb_backend_address_pool" "pg-master-lb-backend-pool" {
-  name                = "pg-master-lb-backend-pool"
+resource "azurerm_lb_backend_address_pool" "pg-lb-rw-backend-pool" {
+  name                = "pg-lb-rw-backend-pool"
   resource_group_name = "${var.resource_group_name}"
   loadbalancer_id     = "${azurerm_lb.pg-lb.id}"
 }
 
-resource "azurerm_lb_probe" "pg-master-lb-probe" {
-  name                = "pg-master-lb-probe"
+resource "azurerm_lb_backend_address_pool" "pg-lb-ro-backend-pool" {
+  name                = "pg-lb-ro-backend-pool"
+  resource_group_name = "${var.resource_group_name}"
+  loadbalancer_id     = "${azurerm_lb.pg-lb.id}"
+}
+
+resource "azurerm_lb_probe" "pg-lb-rw-probe" {
+  name                = "pg-lb-rw-probe"
   resource_group_name = "${var.resource_group_name}"
   loadbalancer_id     = "${azurerm_lb.pg-lb.id}"
   protocol            = "HTTP"
@@ -46,28 +52,8 @@ resource "azurerm_lb_probe" "pg-master-lb-probe" {
   request_path        = "/master"
 }
 
-resource "azurerm_lb_rule" "pg-master-postgres-rule" {
-  name                = "postgres-rule"
-  resource_group_name = "${var.resource_group_name}"
-  loadbalancer_id     = "${azurerm_lb.pg-lb.id}"
-
-  frontend_ip_configuration_name = "master"
-  protocol                       = "TCP"
-  frontend_port                  = 5432
-  backend_port                   = 5432
-
-  backend_address_pool_id = "${azurerm_lb_backend_address_pool.pg-master-lb-backend-pool.id}"
-  probe_id                = "${azurerm_lb_probe.pg-master-lb-probe.id}"
-}
-
-resource "azurerm_lb_backend_address_pool" "pg-secondary-lb-backend-pool" {
-  name                = "pg-secondary-lb-backend-pool"
-  resource_group_name = "${var.resource_group_name}"
-  loadbalancer_id     = "${azurerm_lb.pg-lb.id}"
-}
-
-resource "azurerm_lb_probe" "pg-secondary-lb-probe" {
-  name                = "pg-secondary-lb-probe"
+resource "azurerm_lb_probe" "pg-lb-ro-probe" {
+  name                = "pg-lb-ro-probe"
   resource_group_name = "${var.resource_group_name}"
   loadbalancer_id     = "${azurerm_lb.pg-lb.id}"
   protocol            = "HTTP"
@@ -75,16 +61,30 @@ resource "azurerm_lb_probe" "pg-secondary-lb-probe" {
   request_path        = "/replica"
 }
 
-resource "azurerm_lb_rule" "pg-secondary-postgres-rule" {
-  name                = "postgres-rule"
+resource "azurerm_lb_rule" "pg-lb-rw-postgres-rule" {
+  name                = "pg-lb-rw-postgres-rule"
   resource_group_name = "${var.resource_group_name}"
   loadbalancer_id     = "${azurerm_lb.pg-lb.id}"
 
-  frontend_ip_configuration_name = "secondary"
+  frontend_ip_configuration_name = "read-write"
   protocol                       = "TCP"
   frontend_port                  = 5432
   backend_port                   = 5432
 
-  backend_address_pool_id = "${azurerm_lb_backend_address_pool.pg-secondary-lb-backend-pool.id}"
-  probe_id                = "${azurerm_lb_probe.pg-secondary-lb-probe.id}"
+  backend_address_pool_id = "${azurerm_lb_backend_address_pool.pg-lb-rw-backend-pool.id}"
+  probe_id                = "${azurerm_lb_probe.pg-lb-rw-probe.id}"
+}
+
+resource "azurerm_lb_rule" "pg-lb-ro-postgres-rule" {
+  name                = "pg-lb-ro-postgres-rule"
+  resource_group_name = "${var.resource_group_name}"
+  loadbalancer_id     = "${azurerm_lb.pg-lb.id}"
+
+  frontend_ip_configuration_name = "read-only"
+  protocol                       = "TCP"
+  frontend_port                  = 5432
+  backend_port                   = 5432
+
+  backend_address_pool_id = "${azurerm_lb_backend_address_pool.pg-lb-ro-backend-pool.id}"
+  probe_id                = "${azurerm_lb_probe.pg-lb-ro-probe.id}"
 }
