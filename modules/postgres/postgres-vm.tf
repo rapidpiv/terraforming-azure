@@ -27,6 +27,7 @@ resource "azurerm_network_interface" "pg_vm_nic" {
 
 
   ip_configuration {
+    primary                       = true
     name                          = "${var.env_name}-pg-vm-rw-ip-config-${count.index}"
     subnet_id                     = "${var.subnet_id}"
     private_ip_address_allocation = "static"
