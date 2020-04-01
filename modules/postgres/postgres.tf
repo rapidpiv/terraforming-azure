@@ -25,6 +25,7 @@ resource "azurerm_public_ip" "postgres_public_ip" {
   location                = "${var.location}"
   resource_group_name     = "${var.resource_group_name}"
   allocation_method       = "Static"
+  sku                 = "Standard"
   idle_timeout_in_minutes = 30
 }
 
