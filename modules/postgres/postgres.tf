@@ -44,14 +44,14 @@ resource "azurerm_network_interface_backend_address_pool_association" "pg-nic-ba
   backend_address_pool_id = "${azurerm_lb_backend_address_pool.pg-master-lb-backend-pool.id}"
 }
 
-# resource "azurerm_network_interface_backend_address_pool_association" "pg-nic-backend-secondary-pool-association" {
+resource "azurerm_network_interface_backend_address_pool_association" "pg-nic-backend-secondary-pool-association" {
 
-#   count                   = "${var.postgres_vm_count}"
+  count                   = "${var.postgres_vm_count}"
 
-#   network_interface_id    = "${element(azurerm_network_interface.postgres_nic.*.id, count.index)}"
-#   ip_configuration_name   = "${var.env_name}-postgres-ip-config-${count.index}"
-#   backend_address_pool_id = "${azurerm_lb_backend_address_pool.pg-secondary-lb-backend-pool.id}"
-# }
+  network_interface_id    = "${element(azurerm_network_interface.postgres_nic.*.id, count.index)}"
+  ip_configuration_name   = "${var.env_name}-postgres-ip-config-${count.index}"
+  backend_address_pool_id = "${azurerm_lb_backend_address_pool.pg-secondary-lb-backend-pool.id}"
+}
 
 resource "azurerm_virtual_machine" "postgres_vm" {
 
