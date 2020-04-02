@@ -104,13 +104,32 @@ resource "azurerm_virtual_machine" "pg_vm" {
     environment = "${var.env_name}"
   }
 
-  provisioner "remote-exec" {
-    inline = ["sudo yum -y install python"]
+  # provisioner "remote-exec" {
+  #   inline = ["sudo yum -y install python"]
 
-    connection {
-      type        = "ssh"
-      user        = "pgadmin"
-      private_key = "${var.postgres_private_key}"
-    }
+  #   connection {
+  #     type        = "ssh"
+  #     user        = "pgadmin"
+  #     private_key = "${var.postgres_private_key}"
+  #   }
+  # }
+
+  connection {
+    type        = "ssh"
+    user        = "pgadmin"
+    private_key = "${var.postgres_private_key}"
+  }
+
+  provisioner "file" {
+    source      = "add-secondary-ip.sh"
+    destination = "/tmp/add-secondary-ip.sh"
+  }
+
+  // change permissions to executable and pipe its output into a new file
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/add-secondary-ip.sh",
+      "sudo /tmp/add-secondary-ip.sh ${cidrhost(var.postgres_subnet_cidr, 10+count.index)} ${cidrnetmask(var.postgres_subnet_cidr)}",
+    ]
   }
 }
