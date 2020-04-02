@@ -121,7 +121,7 @@ resource "azurerm_virtual_machine" "pg_vm" {
   }
 
   provisioner "file" {
-    source      = "add-secondary-ip.sh"
+    source      = "${path.module}/add-secondary-ip.sh"
     destination = "/tmp/add-secondary-ip.sh"
   }
 
