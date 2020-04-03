@@ -61,6 +61,16 @@ resource "azurerm_network_interface_backend_address_pool_association" "pg-vm-nic
   backend_address_pool_id = "${azurerm_lb_backend_address_pool.pg-lb-ro-backend-pool.id}"
 }
 
+resource "azurerm_availability_set" "pg_vm_av_set" {
+
+  name                         = "${var.env_name}-pg-vm-av-set"
+  location                      = "${var.location}"
+  resource_group_name       = "${var.resource_group_name}"
+  platform_fault_domain_count  = 2
+  platform_update_domain_count = 2
+  managed                      = true
+}
+
 resource "azurerm_virtual_machine" "pg_vm" {
 
   count                   = "${var.postgres_vm_count}"
@@ -68,6 +78,7 @@ resource "azurerm_virtual_machine" "pg_vm" {
   name = "${var.env_name}-pg-vm-${count.index}"
   location                      = "${var.location}"
   resource_group_name       = "${var.resource_group_name}"
+  availability_set_id = "${azurerm_availability_set.pg_vm_av_set.id}"
   network_interface_ids         = ["${element(azurerm_network_interface.pg_vm_nic.*.id, count.index)}"]
   vm_size                  = "${var.postgres_vm_size}"
 
