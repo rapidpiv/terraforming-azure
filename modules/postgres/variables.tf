@@ -18,4 +18,6 @@ variable "postgres_private_key" { }
 
 variable "postgres_vm_count" { }
 
-variable "dns_zone" { }
+variable "dns_zone_name" { }
+
+variable "dns_zone_resource_group" { }

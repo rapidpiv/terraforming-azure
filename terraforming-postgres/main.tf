@@ -109,5 +109,6 @@ module "postgres" {
   resource_group_name  = "${azurerm_resource_group.pg_resource_group.name}"
   security_group_id   = "${azurerm_network_security_group.pg_security_group.id}"
   subnet_id           = "${azurerm_subnet.pg_subnet.id}"
-  dns_zone           = "${var.dns_zone}"
+  dns_zone_name           = "${var.dns_zone_name}"
+  dns_zone_resource_group = "${var.dns_zone_resource_group}"
 }

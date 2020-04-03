@@ -15,7 +15,9 @@ variable "client_secret" {}
 
 variable "location" {}
 
-variable "dns_zone" {}
+variable "dns_zone_name" { }
+
+variable "dns_zone_resource_group" { }
 
 variable "pg_virtual_network_address_space" {
   type    = "list"

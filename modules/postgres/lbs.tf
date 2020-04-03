@@ -8,8 +8,8 @@ resource "azurerm_public_ip" "pg-lb-rw-public-ip" {
 
 resource "azurerm_dns_a_record" "pg_lb_rw_dns_a_rec" {
   name                = "pgrw"
-  zone_name           = "${var.dns_zone}"
-  resource_group_name = "poc-mod"
+  zone_name           = "${var.dns_zone_name}"
+  resource_group_name = "${var.dns_zone_resource_group}"
   ttl                 = "60"
   records             = ["${azurerm_public_ip.pg-lb-rw-public-ip.ip_address}"]
 }
@@ -24,8 +24,8 @@ resource "azurerm_dns_a_record" "pg_lb_rw_dns_a_rec" {
 
 resource "azurerm_dns_a_record" "pg_lb_ro_dns_a_rec" {
   name                = "pgro"
-  zone_name           = "${var.dns_zone}"
-  resource_group_name = "poc-mod"
+  zone_name           = "${var.dns_zone_name}"
+  resource_group_name = "${var.dns_zone_resource_group}"
   ttl                 = "60"
   records             = ["${azurerm_public_ip.pg-lb-ro-public-ip.ip_address}"]
 }
